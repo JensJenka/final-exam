@@ -4,13 +4,13 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: bankaccount-service
-          uri: lb://bankaccount-service
+        - id: order-service
+          uri: lb://order-service
           predicates:
-            - Path=/api/bank/**
-        - id: transfer-service
-          uri: lb://transfer-service
+            - Path=/api/order/**
+        - id: payment-service
+          uri: lb://payment-service
           predicates:
-            - Path=/api/transfer/**
+            - Path=/api/payment/**
 server:
   port: 8080

@@ -23,4 +23,7 @@ class PaymentEntity(
     val payed: Boolean
 
 ) {
+    override fun toString(): String {
+        return "PaymentEntity(paymentId=$paymentId, orderId=$orderId, payed=$payed)"
+    }
 }

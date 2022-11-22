@@ -31,3 +31,7 @@ raw Markdown line up prettily. You can also use inline Markdown.
 }
 ```
 
+
+VIDEOS TO POSSIBLY WATCH
+spring cloud gateway filters tutorial
+https://www.youtube.com/watch?v=PfzVE3AOhJ0

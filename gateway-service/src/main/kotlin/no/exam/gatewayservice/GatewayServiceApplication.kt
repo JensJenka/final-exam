@@ -1,4 +1,4 @@
-package no.exam.gatewayservice
+ package no.exam.gatewayservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
