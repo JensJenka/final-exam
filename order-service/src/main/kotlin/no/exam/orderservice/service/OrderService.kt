@@ -12,4 +12,16 @@ class OrderService(@Autowired private val orderRepo: OrderRepo) {
     fun getOrderOnId(orderId: Long): OrderEntity?{
         return orderRepo.findById(orderId).orElse(null)
     }
+
+    //Post, with the required fields of the entity to create a new one
+    fun createOrder(orderEntity: OrderEntity): OrderEntity{
+        return orderRepo.save(orderEntity)
+    }
+
+    fun updateOrder(orderId: Long, orderEntity: OrderEntity): OrderEntity?{
+        if(orderRepo.existsById(orderEntity.orderId)){
+            return orderRepo.save(orderEntity)
+        }
+        return null
+    }
 }

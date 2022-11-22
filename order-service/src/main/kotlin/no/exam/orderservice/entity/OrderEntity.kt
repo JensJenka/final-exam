@@ -14,7 +14,7 @@ class OrderEntity(
     )
 
     @Column(name = "order_id")
-    val orderId: Long? = null,
+    val orderId: Long,
 
     @Column(name = "order_owner")
     val orderOwner: String,
