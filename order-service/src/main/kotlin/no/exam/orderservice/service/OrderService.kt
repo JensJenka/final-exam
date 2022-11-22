@@ -24,4 +24,12 @@ class OrderService(@Autowired private val orderRepo: OrderRepo) {
         }
         return null
     }
+
+    fun deleteOrder(orderId: Long): Boolean{
+        if(orderRepo.existsById(orderId)){
+            orderRepo.deleteById(orderId)
+            return true
+        }
+        return false
+    }
 }

@@ -5,6 +5,7 @@ import no.exam.orderservice.exception.OrderNotFoundException
 import no.exam.orderservice.service.OrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,5 +46,12 @@ class OrderController(
             }
         }
         throw OrderNotFoundException("We could not find an order to update")
+    }
+
+    @DeleteMapping("/{id}/delete")
+    fun deleteOrder(@PathVariable id: Long?) {
+        id?.let {
+            if(!orderService.deleteOrder(it)) throw OrderNotFoundException("Unable to delete order")
+        }
     }
 }
