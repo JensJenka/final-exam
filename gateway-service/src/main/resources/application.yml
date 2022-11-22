@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: bankaccount-service
+          uri: lb://bankaccount-service
+          predicates:
+            - Path=/api/bank/**
+        - id: transfer-service
+          uri: lb://transfer-service
+          predicates:
+            - Path=/api/transfer/**
+server:
+  port: 8080
