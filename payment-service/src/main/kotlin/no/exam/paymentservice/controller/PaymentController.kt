@@ -5,10 +5,8 @@ import no.exam.paymentservice.exception.PaymentNotFoundException
 import no.exam.paymentservice.service.PaymentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.security.InvalidParameterException
 
 @RestController
 @RequestMapping("/api/payment")
@@ -22,4 +20,21 @@ class PaymentController(
         }
         throw PaymentNotFoundException("There was an error locating your payment")
     }
+
+    @PostMapping("/newPayment/{orderId}")
+    fun createPayment(@PathVariable orderId:Long?,@RequestBody paymentEntity:PaymentEntity?):ResponseEntity<PaymentEntity?>{
+        when{
+            orderId==null->throw InvalidParameterException()
+                //paymentEntity?.paymentId!=null->throwPaymentNotFoundException("Thepaymentexists")
+            else->{
+                if(paymentEntity!=null){
+                    paymentService.createPayment(orderId,paymentEntity)?.let{
+                        return ResponseEntity.ok().body(it)
+                    }
+                }
+            }
+        }
+        throw PaymentNotFoundException("Error occured during payment creation")
+    }
+
 }
