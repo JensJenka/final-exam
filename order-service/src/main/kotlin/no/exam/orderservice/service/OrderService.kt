@@ -19,7 +19,8 @@ class OrderService(@Autowired private val orderRepo: OrderRepo) {
     }
 
     fun updateOrder(orderId: Long, orderEntity: OrderEntity): OrderEntity?{
-        if(orderRepo.existsById(orderEntity.orderId)){
+        if(orderRepo.existsById(orderId)){
+            orderRepo.deleteById(orderId)
             return orderRepo.save(orderEntity)
         }
         return null
