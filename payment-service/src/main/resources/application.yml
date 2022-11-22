@@ -1,10 +1,10 @@
 server:
-  port: 8090
+  port: 8091
 spring:
   rabbitmq:
     host: localhost
   application:
-    name: order-service
+    name: payment-service
   jpa:
     database: POSTGRESQL
     show-sql: true

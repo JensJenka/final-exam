@@ -22,7 +22,7 @@ class OrderController(
 ) {
 
     @GetMapping("/{id}") //gets an order
-    fun getOrderOnId(@PathVariable id : Long?) : ResponseEntity<OrderEntity>{
+    fun getOrderOnId(@PathVariable id : Long?): ResponseEntity<OrderEntity>{
         id?.let {
             return ResponseEntity.ok(orderService.getOrderOnId(id))
         }
