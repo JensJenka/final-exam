@@ -21,4 +21,16 @@ class PaymentIntegrationService(@Autowired private val restTemplate: RestTemplat
         println("ID successfully transferred to Payment-Service: ${response.body}")
     }
 
+    fun deletePaymentHTTP(orderId: String) {
+        println("IS IT HERE " + orderId)
+        val url = "$paymentURL/delete"
+        println("IS IT HERE2")
+
+        restTemplate.delete(url, orderId)
+        println("IS IT HERE3")
+        println("Is deleted")
+        val response: ResponseEntity<String> = restTemplate.getForEntity("$paymentURL/{$orderId}/delete", ResponseEntity::class)
+        println("DELETE ID successfully transferred to Payment-Service: ${response.body + response.statusCode}")
+    }
+
 }

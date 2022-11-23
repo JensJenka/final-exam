@@ -12,6 +12,10 @@ class PaymentService(@Autowired private val paymentRepo: PaymentRepo) {
         return paymentRepo.findById(paymentId).orElse(null)
     }
 
+    fun createPayment(paymentEntity: PaymentEntity): PaymentEntity{
+        return paymentRepo.save(paymentEntity)
+    }
+
     fun createPaymentOnOrderID(orderId: Long) : PaymentEntity?{
         val newPayment = PaymentEntity(orderId = orderId)
         return paymentRepo.save(newPayment)
@@ -28,6 +32,14 @@ class PaymentService(@Autowired private val paymentRepo: PaymentRepo) {
     fun deletePayment(paymentId:Long):Boolean{
         if(paymentRepo.existsById(paymentId)){
             paymentRepo.deleteById(paymentId)
+            return true
+        }
+        return false
+    }
+
+    fun deletePaymentOnOrderId(orderId: Long):Boolean{
+        if(paymentRepo.existsById(orderId)){
+            paymentRepo.deleteById(orderId)
             return true
         }
         return false

@@ -1,4 +1,4 @@
-package no.exam.orderservice.exception
+package no.exam.shippingservice.exception
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.http.HttpStatus
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class GlobalExceptionHandler {
 
     @ExceptionHandler
-    fun handleOrderNotFoundException(ex: OrderNotFoundException): ResponseEntity<String>{
+    fun handleOrderNotFoundException(ex: ShippmentNotFoundException): ResponseEntity<String>{
         val errorResponse = ErrorResponse(HttpStatus.BAD_REQUEST, ex.message)
         return ResponseEntity.ok(jacksonObjectMapper().writeValueAsString(errorResponse))
     }
-
+    
 }
 
 data class ErrorResponse(

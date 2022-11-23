@@ -34,8 +34,8 @@ class OrderController(
         throw OrderNotFoundException("There was an error locating your order")
     }
 
-    //Creates a new Order - WORKS
-    @PostMapping("/newOrder") //creates a new order
+    //Creates a new Order, not creating a payment - WORKS
+    @PostMapping("/newOrder")
     fun createOrder(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
         return ResponseEntity.ok(orderService.createOrder(orderEntity))
     }
@@ -48,6 +48,7 @@ class OrderController(
             orderEntity == null -> InvalidParameterException()
             else -> {
                 orderService.updateOrder(id, orderEntity)?.let {
+
                     return ResponseEntity.ok().body(it)
                 }
             }
@@ -55,10 +56,13 @@ class OrderController(
         throw OrderNotFoundException("We could not find an order to update")
     }
 
-    //Deletes an order - WORKS
-    @DeleteMapping("/{id}/delete")
+    //Deletes an order - NOT WORKING
+    @DeleteMapping("/http/delete/{id}")
     fun deleteOrder(@PathVariable id: Long?) {
+        println("I delete mapping" + id)
+        paymentIntegrationService.deletePaymentHTTP("$id")
         id?.let {
+            //paymentIntegrationService.deletePaymentHTTP("{$id}")
             if(!orderService.deleteOrder(it)) throw OrderNotFoundException("Unable to delete order")
         }
     }

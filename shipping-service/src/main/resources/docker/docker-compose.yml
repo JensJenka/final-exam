@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  shipping-db:
+    container_name: 'Shipping-Container'
+    image: postgres:alpine
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_DB=localdevdb
+      - POSTGRES_USER=localdevuser
+      - POSTGRES_PASSWORD=pirate

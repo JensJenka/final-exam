@@ -11,4 +11,25 @@ class ShippingService(@Autowired private val shippingRepo: ShippingRepo) {
     fun getShippingOnId(id: Long): ShippingEntity?{
         return shippingRepo.findById(id).orElse(null)
     }
+
+    fun createShipping(shippingEntity: ShippingEntity): ShippingEntity{
+        return shippingRepo.save(shippingEntity)
+    }
+
+    fun updateShipping(shippingId: Long, shippingEntity: ShippingEntity): ShippingEntity?{
+        if (shippingRepo.existsById(shippingId)){
+            shippingRepo.deleteById(shippingId)
+            return shippingRepo.save(shippingEntity)
+        }
+        return null
+    }
+
+    fun deleteShipping(shippingId: Long): Boolean{
+        if(shippingRepo.existsById(shippingId)){
+            shippingRepo.deleteById(shippingId)
+            return true
+        }
+        return false
+    }
+
 }

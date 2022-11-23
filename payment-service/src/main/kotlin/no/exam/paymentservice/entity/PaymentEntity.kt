@@ -7,9 +7,9 @@ import javax.persistence.*
 class PaymentEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_order_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_table_order_id_seq")
     @SequenceGenerator(
-        name = "payment_order_id_seq",
+        name = "payment_table_order_id_seq",
         allocationSize = 1
     )
 

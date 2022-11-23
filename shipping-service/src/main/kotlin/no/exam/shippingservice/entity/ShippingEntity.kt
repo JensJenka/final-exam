@@ -6,9 +6,9 @@ import javax.persistence.*
 @Table(name = "shipping_table")
 class ShippingEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipping_account_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipping_table_shipping_id_seq")
     @SequenceGenerator(
-        name = "shipping_account_id_seq",
+        name = "shipping_table_shipping_id_seq",
         allocationSize = 1
     )
 

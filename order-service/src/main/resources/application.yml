@@ -21,3 +21,7 @@ spring:
   sql:
     init:
       platform: localdevdb
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
