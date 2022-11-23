@@ -1,10 +1,10 @@
 version: '3.1'
 services:
-  postgres-db:
-    container_name: 'Postgres-Exam-Container'
+  payment-db:
+    container_name: 'Payment-Container'
     image: postgres:alpine
     ports:
-      - '5432:5432'
+      - '5431:5432'
     environment:
       - POSTGRES_DB=localdevdb
       - POSTGRES_USER=localdevuser

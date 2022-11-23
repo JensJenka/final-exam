@@ -11,8 +11,9 @@ class PaymentService(@Autowired private val paymentRepo: PaymentRepo) {
     fun getPaymentOnId(paymentId: Long): PaymentEntity{
         return paymentRepo.findById(paymentId).orElse(null)
     }
-    fun createPayment(orderId: Long, paymentEntity: PaymentEntity): PaymentEntity?{
-        val newPayment = PaymentEntity(paymentEntity.paymentId, orderId, paymentEntity.payed)
+
+    fun createPaymentOnOrderID(orderId: Long) : PaymentEntity?{
+        val newPayment = PaymentEntity(orderId = orderId)
         return paymentRepo.save(newPayment)
     }
 

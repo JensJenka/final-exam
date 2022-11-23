@@ -1,6 +1,5 @@
 package no.exam.orderservice.entity
 
-import no.exam.orderservice.integration.PaymentIntegrationService
 import javax.persistence.*
 
 @Entity
@@ -24,7 +23,7 @@ class OrderEntity(
     val orderAmount: Int,
 
     @Column(name = "shipping_ready")
-    val shippingReady: Boolean? = null,
+    val shippingReady: Boolean? = false,
 
     @OneToOne(fetch=FetchType.EAGER)
     @JoinTable(

@@ -14,7 +14,7 @@ class PaymentController(
     @Autowired private val paymentService: PaymentService,
     @Autowired private val paymentSender: PaymentSender
 ) {
-    @GetMapping("/{id}") //gets an somethn
+    @GetMapping("/{id}") //gets a payment on ID
     fun getPaymentOnId(@PathVariable id: Long?): ResponseEntity<PaymentEntity>{
         id?.let {
             return ResponseEntity.ok(paymentService.getPaymentOnId(id))
@@ -22,32 +22,18 @@ class PaymentController(
         throw PaymentNotFoundException("There was an error locating your payment")
     }
 
-    @PostMapping("/http/newPayment/{orderId}")
-    fun createPayment(@PathVariable orderId:Long?,@RequestBody paymentEntity:PaymentEntity?):ResponseEntity<PaymentEntity?>{
-        when{
-            orderId == null -> throw PaymentNotFoundException("INSIDE WHEN")
-                //paymentEntity?.paymentId!=null->throwPaymentNotFoundException("Thepaymentexists")
-            else -> {
-                if(paymentEntity != null){
-                    paymentService.createPayment(orderId,paymentEntity)?.let{
-                        return ResponseEntity.ok().body(it)
-                    }
-                }
-            }
-        }
-        throw PaymentNotFoundException("Error occured during payment creation")
-    }
-
-
-    @PostMapping("/{message}")
-    fun createPaymentMessage(@PathVariable message: String) {
-        paymentSender.sendMessage(message)
+    @GetMapping("/http/message/{message}")
+    fun response(@PathVariable message: String): ResponseEntity<String> {
+        println(message)
+        return ResponseEntity.ok("Response from the PaymentController.kt")
     }
 
     @GetMapping("/http/{orderId}")
-    fun responseToBankAccountService(@PathVariable orderId: String): ResponseEntity<String> {
+    fun responseFromOrderService(@PathVariable orderId: String): ResponseEntity<String> {
         println(orderId)
+        paymentService.createPaymentOnOrderID(orderId.toLong())
         return ResponseEntity.ok("ID sent! From: PaymentController, see Payment-run for message")
     }
+
 
 }

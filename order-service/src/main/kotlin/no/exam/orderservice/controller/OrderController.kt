@@ -25,6 +25,7 @@ class OrderController(
     @Autowired private val paymentIntegrationService: PaymentIntegrationService
 ) {
 
+    //Gets an order based on provided id - WORKS
     @GetMapping("/{id}") //gets an order
     fun getOrderOnId(@PathVariable id : Long?): ResponseEntity<OrderEntity>{
         id?.let {
@@ -33,11 +34,13 @@ class OrderController(
         throw OrderNotFoundException("There was an error locating your order")
     }
 
+    //Creates a new Order - WORKS
     @PostMapping("/newOrder") //creates a new order
     fun createOrder(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
         return ResponseEntity.ok(orderService.createOrder(orderEntity))
     }
 
+    //Updates an existing order - WORKS
     @PutMapping("/{id}")
     fun updateOrder(@PathVariable id: Long?, @RequestBody orderEntity: OrderEntity?): ResponseEntity<OrderEntity?> {
         when {
@@ -52,6 +55,7 @@ class OrderController(
         throw OrderNotFoundException("We could not find an order to update")
     }
 
+    //Deletes an order - WORKS
     @DeleteMapping("/{id}/delete")
     fun deleteOrder(@PathVariable id: Long?) {
         id?.let {
@@ -59,22 +63,20 @@ class OrderController(
         }
     }
 
-
-
+    //Sends a message-param to itself - WORKS
     @PostMapping("/{message}")
     fun createOrderMessage(@PathVariable message: String) {
         orderSender.sendMessage(message)
     }
-    @PostMapping("/test/{id}")
-    fun callPay(@PathVariable id: Long?) {
-        paymentIntegrationService.sendHttpGETPayment(id.toString())
-    }
 
+    //Sends a call to the Payment-service - WORKS
     @PostMapping("http/callToPayment")
     fun callPaymentFromOrder() {
-        paymentIntegrationService.sendHttpCallToPaymentService("This is a fucking string message")
+        paymentIntegrationService.sendHttpCallToPaymentService("callToPayment: This is a fucking string message from the Order-Service!")
     }
-    @PostMapping("/http/testOrder") //creates a new order
+
+    //Creates a new order, and payment based on the created order - WORKS
+    @PostMapping("/http/newOrder") //creates a new order
     fun createTestOrder(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
         val newOrder = ResponseEntity.ok(orderService.createOrder(orderEntity))
         paymentIntegrationService.createPaymentHTTPrequest("${orderEntity.orderId}")

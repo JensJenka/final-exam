@@ -14,13 +14,13 @@ class PaymentEntity(
     )
 
     @Column(name = "payment_id")
-    val paymentId: Long,
+    val paymentId: Long? = null,
 
     @Column(name = "order_id")
     val orderId: Long,
 
     @Column(name = "payed")
-    val payed: Boolean
+    val payed: Boolean? = false,
 
 ) {
     override fun toString(): String {
