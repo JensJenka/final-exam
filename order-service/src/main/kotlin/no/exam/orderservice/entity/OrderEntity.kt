@@ -1,5 +1,6 @@
 package no.exam.orderservice.entity
 
+import no.exam.orderservice.integration.PaymentIntegrationService
 import javax.persistence.*
 
 @Entity
@@ -30,7 +31,7 @@ class OrderEntity(
     name="order_table_payment_table",
     joinColumns=[JoinColumn(name="payment_id")],
     inverseJoinColumns=[JoinColumn(name="order_id")]
-    )val payment:OrderEntity
+    )private val payment: OrderEntity?
 ){
     override fun toString(): String {
         return "OrderEntity(orderId=$orderId, orderOwner='$orderOwner', orderAmount=$orderAmount, shippingReady=$shippingReady)"

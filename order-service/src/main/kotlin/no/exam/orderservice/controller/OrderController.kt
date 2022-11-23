@@ -2,6 +2,8 @@ package no.exam.orderservice.controller
 
 import no.exam.orderservice.entity.OrderEntity
 import no.exam.orderservice.exception.OrderNotFoundException
+import no.exam.orderservice.integration.OrderSender
+import no.exam.orderservice.integration.PaymentIntegrationService
 import no.exam.orderservice.service.OrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -18,7 +20,9 @@ import java.security.InvalidParameterException
 @RestController
 @RequestMapping("/api/order")
 class OrderController(
-    @Autowired private val orderService: OrderService
+    @Autowired private val orderService: OrderService,
+    @Autowired private val orderSender: OrderSender,
+    @Autowired private val paymentIntegrationService: PaymentIntegrationService
 ) {
 
     @GetMapping("/{id}") //gets an order
@@ -53,5 +57,27 @@ class OrderController(
         id?.let {
             if(!orderService.deleteOrder(it)) throw OrderNotFoundException("Unable to delete order")
         }
+    }
+
+
+
+    @PostMapping("/{message}")
+    fun createOrderMessage(@PathVariable message: String) {
+        orderSender.sendMessage(message)
+    }
+    @PostMapping("/test/{id}")
+    fun callPay(@PathVariable id: Long?) {
+        paymentIntegrationService.sendHttpGETPayment(id.toString())
+    }
+
+    @PostMapping("http/callToPayment")
+    fun callPaymentFromOrder() {
+        paymentIntegrationService.sendHttpCallToPaymentService("This is a fucking string message")
+    }
+    @PostMapping("/http/testOrder") //creates a new order
+    fun createTestOrder(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
+        val newOrder = ResponseEntity.ok(orderService.createOrder(orderEntity))
+        paymentIntegrationService.createPaymentHTTPrequest("${orderEntity.orderId}")
+        return newOrder
     }
 }
