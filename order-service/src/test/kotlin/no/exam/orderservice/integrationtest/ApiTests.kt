@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.put
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -54,5 +55,25 @@ class OrderServiceApplicationTests(@Autowired private val mockMvc: MockMvc) {
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andExpect { jsonPath("$.orderOwner", Matchers.containsString("TEST POST")) }
+            .andExpect { jsonPath("$.orderAmount", Matchers.equalTo(1000)) }
+            .andExpect { jsonPath("$.shippingReady", Matchers.equalTo(false)) }
+    }
+
+    @Test
+    @Order(3)
+    fun shouldUpdateOrder() {
+            val updateOrder = JSONObject()
+                .put("orderOwner", "TEST PUT")
+                .put("orderAmount", 999)
+                .put("shippingReady", true)
+
+        mockMvc.put("$baseURL/1"){
+            contentType = MediaType.APPLICATION_JSON
+            content = updateOrder
+        }
+            .andExpect { status { isOk() } }
+            .andExpect { jsonPath("$.orderOwner", Matchers.containsString("TEST PUT")) }
+            .andExpect { jsonPath("$.orderAmount", Matchers.equalTo(999)) }
+            .andExpect { jsonPath("$.shippingReady", Matchers.equalTo(true)) }
     }
 }

@@ -17,7 +17,6 @@ class ShippingService(@Autowired private val shippingRepo: ShippingRepo) {
     }
 
     fun createShippingOnPaymentId(paymentId: String) : ShippingEntity?{
-        println("IN SHIPIPING CREATE!")
         val newShipping = ShippingEntity(paymentId = paymentId.toLong())
         return shippingRepo.save(newShipping)
     }

@@ -14,9 +14,9 @@ class PaymentReceiver(@Autowired private val paymentService: PaymentService,
 ) {
     @RabbitHandler
     fun receiveOrderID(orderId: String){
-        println("Receive OrderId?: " + orderId)
+        println("OrderId received: " + orderId + ", making payment with it")
         val payment = paymentService.createPaymentOnOrderID(orderId = orderId.toLong())
         rabbitTemplate.convertAndSend("shipping_queue", payment!!.paymentId.toString())
-        println("Sent to shipping_queue ${payment.paymentId}")
+        println("PaymentId: ${payment.paymentId} sent to shippingservice " )
     }
 }
