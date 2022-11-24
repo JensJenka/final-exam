@@ -10,7 +10,8 @@
 7. Create a new sequence in the database called <payment_table_order_id_seq>
 8. POST to <http://localhost:8080/api/order/http/newOrder> with Block 1
 #### Note you will see the Order_table populate with your POST-request, note that upon creation of an order a message is sent to the Payment-Service with that order_id. Which will populate the Payment_table with that order_id and corresponding payment_id as a new payment.
-
+9. Then you can run all tests in OrderServiceApplicationTests!
+10. 
 ### Order-Service API's have @Requestmapping("/api/order)
 ### Payment-Service API's have @Requestmapping("/api/payment)
 | HTTP Request | URL end-point                                          |    Service    |                        Comment                        |

@@ -1,10 +1,8 @@
-package no.exam.orderservice
+package no.exam.orderservice.integrationtest
 
 import no.exam.orderservice.extensions.TestContainerExtension
 import no.exam.orderservice.extensions.WireMockExtension
 import org.hamcrest.Matchers
-import org.hamcrest.Matchers.containsString
-import org.hamcrest.Matchers.`is`
 import org.json.JSONObject
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -29,24 +27,32 @@ import org.springframework.test.web.servlet.post
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class OrderServiceApplicationTests(@Autowired private val mockMvc: MockMvc) {
 
+    val baseURL = "http://localhost:8080/api/order"
+
+
     @Test
-    fun shouldGetOrderFromWireMock(){
-        mockMvc
-            .get("http://localhost:8080/api/order/1")
+    @Order(1)
+    fun shouldPOSTorder() {
+        val order = JSONObject()
+            .put("orderOwner", "TEST POST")
+            .put("orderAmount", 1000)
+
+        mockMvc.post("$baseURL/newOrder") {
+            contentType = MediaType.APPLICATION_JSON
+            content = order
+        }
             .andExpect { status { isOk() } }
-            .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
-            .andExpect { jsonPath("$.orderOwner", Matchers.`is`("TEST POST")) }
-            .andExpect { jsonPath("$.orderAmount", Matchers.`is`(1000)) }
+            .andReturn()
     }
 
-/*    @Test
-    fun shouldGetPaymentFromWireMock(){
-        mockMvc
-            .get("http://localhost:8080/api/payment/1")
+    @Test
+    @Order(2)
+    fun shouldGETorder() {
+        mockMvc.get("$baseURL/1") {
+            contentType = MediaType.APPLICATION_JSON
+        }
             .andExpect { status { isOk() } }
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
-            .andExpect { jsonPath("$.orderId", Matchers.`is`(1)) }
-            .andExpect { jsonPath("$.payed", Matchers.`is`(false)) }
-    }*/
-
+            .andExpect { jsonPath("$.orderOwner", Matchers.containsString("TEST POST")) }
+    }
 }
