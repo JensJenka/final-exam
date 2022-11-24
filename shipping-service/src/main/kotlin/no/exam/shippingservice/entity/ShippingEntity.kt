@@ -15,16 +15,14 @@ class ShippingEntity(
     @Column(name = "shipping_id")
     val shippingId: Long? = null,
 
-    @Column(name = "shipping_address")
-    val shippingAddress: String,
+    @Column(name = "payment_id")
+    val paymentId: Long? = null,
 
     @Column(name = "payed")
-    val payed: Boolean? = null,
+    val payed: Boolean? = false,
 
     @Column(name = "shipping_ready")
-    val shippingReady: Boolean? = null
+    val shippingReady: Boolean? = false
 ){
-    override fun toString(): String {
-        return "ShippingEntity(shippingId=$shippingId, shippingAddress='$shippingAddress', payed=$payed, shippingReady=$shippingReady)"
-    }
+
 }

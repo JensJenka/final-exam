@@ -39,7 +39,7 @@ class OrderServiceApplicationTests(@Autowired private val mockMvc: MockMvc) {
             .andExpect { jsonPath("$.orderAmount", Matchers.`is`(1000)) }
     }
 
-/*    @Test
+    @Test
     fun shouldGetPaymentFromWireMock(){
         mockMvc
             .get("http://localhost:8080/api/payment/1")
@@ -47,6 +47,6 @@ class OrderServiceApplicationTests(@Autowired private val mockMvc: MockMvc) {
             .andExpect { content { contentType(MediaType.APPLICATION_JSON) } }
             .andExpect { jsonPath("$.orderId", Matchers.`is`(1)) }
             .andExpect { jsonPath("$.payed", Matchers.`is`(false)) }
-    }*/
+    }
 
 }

@@ -12,7 +12,7 @@
     <artifactId>shipping-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>shipping-service</name>
-    <description>shipping-service</description>
+    <description>shpping-service</description>
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.6.21</kotlin.version>

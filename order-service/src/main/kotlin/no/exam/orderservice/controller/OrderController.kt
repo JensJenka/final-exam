@@ -69,9 +69,21 @@ class OrderController(
 
     //Sends a message-param to itself - WORKS
     @PostMapping("/{message}")
-    fun createOrderMessage(@PathVariable message: String) {
+    fun paymentMessage(@PathVariable message: String) {
         orderSender.sendMessage(message)
     }
+
+    @PostMapping("working/newOrder")
+    fun createOrderAndSend(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
+        val newOrder = ResponseEntity.ok(orderService.createOrder(orderEntity))
+        orderSender.sendOrdIdToPayment(orderEntity.orderId.toString())
+        return newOrder
+    }
+
+/*    @PostMapping("/{id}")
+    fun createOrderIdmessage(@PathVariable id: Long) {
+        orderSender.sendOrder(id)
+    }*/
 
     //Sends a call to the Payment-service - WORKS
     @PostMapping("http/callToPayment")

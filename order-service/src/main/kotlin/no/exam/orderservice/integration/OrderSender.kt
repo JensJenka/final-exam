@@ -8,6 +8,14 @@ import org.springframework.stereotype.Service
 class OrderSender(@Autowired private val rabbitTemplate: RabbitTemplate) {
 
     fun sendMessage(message: String) {
-        rabbitTemplate.convertAndSend("order_queue", message)
+        rabbitTemplate.convertAndSend("payment_queue", message)
+    }
+
+    fun sendOrdIdToPayment(ordreId: String) {
+        rabbitTemplate.convertAndSend("payment_queue", ordreId)
+    }
+
+    fun sendOrder(id:Long){
+        rabbitTemplate.convertAndSend("order_queue", id)
     }
 }

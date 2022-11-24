@@ -15,7 +15,7 @@ create table payment_table(
 
 create table shipping_table(
     shipping_id bigserial,
-    shipping_address varchar(50),
+    payment_id bigint,
     payed boolean,
     shipping_ready boolean,
     PRIMARY KEY (shipping_id)
@@ -24,4 +24,6 @@ create table shipping_table(
 create table order_table_payment_table(
     order_id bigint,
     payment_id bigint
-)
+);
+
+create sequence payment_table_order_id_seq;
