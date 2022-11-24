@@ -7,9 +7,11 @@
 4. Start OrderServiceApplication
 5. Start PaymentServiceApplication
 6. Start ShippingServiceApplication
-7. Create a new sequence in the database called <payment_table_order_id_seq>
-8. POST to <http://localhost:8080/api/order/http/newOrder> with Block 1
-#### Note you will see the Order_table populate with your POST-request, note that upon creation of an order a message is sent to the Payment-Service with that order_id. Which will populate the Payment_table with that order_id and corresponding payment_id as a new payment.
+7. POST to <http://localhost:8080/api/order/working/newOrder> with Block 1
+#### Note you will see the Order_table populate with your POST-request, note that upon creation of an order a message is sent to the Payment-Service with that order_id. 
+#### Which will populate the Payment_table with that order_id and corresponding payment_id as a new payment. 
+#### The payment service will then send its paymentId to shippmentservice and a shippment will be created on that paymentId
+#### All of this using RabbitMQ message queues sending the id's forwards
 9. Then you can run all tests in OrderServiceApplicationTests!
 10. 
 ### Order-Service API's have @Requestmapping("/api/order)
@@ -27,6 +29,7 @@
 | GET          | http://localhost:8080/api/payment/1                    |    Payment    |                 Get payment on Id = 1                 |
 | POST         | http://localhost:8080/api/payment/newPayment           |    Payment    |          Copy Block 3 (duplicates may occur)          |
 | GET          | http://localhost:8080/api/payment/http/message/testMSG |    Payment    |      Sends "testMSG"-param as message to itself       |
+| PUT          | http://localhost:8080/api/payment/update/3             |    Payment    |                     Copy Block 6                      |
 | GET          | http://localhost:8080/api/payment/http/delete/1        |    Payment    |               Delete payment on Id = 1                |
 | ---          | ---                                                    |      ---      |                         -----                         |
 | GET          | http://localhost:8080/api/shipping/1                   |   Shipping    |                 Get payment on Id = 1                 |
@@ -75,5 +78,11 @@
   "shippingAddress": "oslo PUT",
   "payed": false,
   "shippingReady": false
+}
+```
+##### Block 6 into JSON body in HTTP-request
+```json
+{
+  "payed": "true"
 }
 ```

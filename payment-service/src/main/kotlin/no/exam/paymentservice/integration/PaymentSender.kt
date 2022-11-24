@@ -11,4 +11,8 @@ class PaymentSender(@Autowired private val rabbitTemplate: RabbitTemplate) {
     fun sendMessage(message: String) {
         rabbitTemplate.convertAndSend("order_queue", message)
     }
+
+    fun sendPaymentUpdateToShippingService(paymentId: String) {
+        rabbitTemplate.convertAndSend("shipping_update_queue", paymentId)
+    }
 }

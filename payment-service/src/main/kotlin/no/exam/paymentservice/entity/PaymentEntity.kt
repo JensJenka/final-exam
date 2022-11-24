@@ -17,7 +17,7 @@ class PaymentEntity(
     val paymentId: Long? = null,
 
     @Column(name = "order_id")
-    val orderId: Long,
+    val orderId: Long? = null,
 
     @Column(name = "payed")
     val payed: Boolean? = false,

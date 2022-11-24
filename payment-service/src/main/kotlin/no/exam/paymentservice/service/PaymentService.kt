@@ -23,11 +23,20 @@ class PaymentService(@Autowired private val paymentRepo: PaymentRepo) {
 
     fun updatePayment(paymentId: Long, paymentEntity: PaymentEntity):PaymentEntity?{
         if(paymentRepo.existsById(paymentId)){
-            paymentRepo.deleteById(paymentId)
-            return paymentRepo.save(paymentEntity)
+            val newPayment = PaymentEntity(paymentId, getOrderIdFromPaymentId(paymentId), paymentEntity.payed)
+            return paymentRepo.save(newPayment)
         }
         return null
     }
+
+    fun getOrderIdFromPaymentId(paymentId: Long): Long?{
+        val payment = paymentRepo.getReferenceById(paymentId)
+        println(payment.toString())
+        return payment.orderId
+    }
+
+
+
 
     fun deletePayment(paymentId:Long):Boolean{
         if(paymentRepo.existsById(paymentId)){

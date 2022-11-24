@@ -21,6 +21,13 @@ class ShippingService(@Autowired private val shippingRepo: ShippingRepo) {
         return shippingRepo.save(newShipping)
     }
 
+    fun flipPayedStatus(paymentId: String){
+        val shippingID = shippingRepo.findShippingEntitiesByPaymentId(paymentId.toLong())
+        println("Queried shippingId: " + shippingID + ", on paymentId: " + paymentId)
+    }
+
+
+
     fun updateShipping(shippingId: Long, shippingEntity: ShippingEntity): ShippingEntity?{
         if (shippingRepo.existsById(shippingId)){
             shippingRepo.deleteById(shippingId)

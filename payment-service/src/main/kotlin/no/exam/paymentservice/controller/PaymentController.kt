@@ -52,5 +52,13 @@ class PaymentController(
         return ResponseEntity.ok("ID DELETED! From: PaymentController, see Payment-run for message")
     }
 
+    @PutMapping("/update/{paymentId}")
+    fun updatePaymentSendQueueToShipping(@PathVariable paymentId: Long, @RequestBody paymentEntity: PaymentEntity): ResponseEntity<PaymentEntity>{
+        val new = ResponseEntity.ok(paymentService.updatePayment(paymentId, paymentEntity))
+        println("SEND TO SHIPPING: " + paymentId.toString())
+        paymentSender.sendPaymentUpdateToShippingService(paymentId.toString())
+        return new
+    }
+
 
 }
