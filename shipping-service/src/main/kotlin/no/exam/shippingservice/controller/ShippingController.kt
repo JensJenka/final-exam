@@ -20,6 +20,7 @@ import java.security.InvalidParameterException
 class ShippingController(
     @Autowired private val shippingService: ShippingService
 ) {
+    //Gets shipping on id - WORKS
     @GetMapping("/{id}")
     fun getShippingOnId(@PathVariable id: Long?): ResponseEntity<ShippingEntity>{
         if (id != null){

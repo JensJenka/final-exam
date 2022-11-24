@@ -26,6 +26,12 @@ class OrderService(@Autowired private val orderRepo: OrderRepo) {
         return null
     }
 
+    fun makeShippable(orderId: Long): OrderEntity?{
+        val change = getOrderOnId(orderId)
+        val doneOrder = OrderEntity(orderId, change?.orderOwner, change?.orderAmount, true)
+        return orderRepo.save(doneOrder)
+    }
+
     fun deleteOrder(orderId: Long): Boolean{
         if(orderRepo.existsById(orderId)){
             orderRepo.deleteById(orderId)

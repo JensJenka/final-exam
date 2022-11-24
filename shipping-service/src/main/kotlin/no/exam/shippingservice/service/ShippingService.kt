@@ -21,10 +21,31 @@ class ShippingService(@Autowired private val shippingRepo: ShippingRepo) {
         return shippingRepo.save(newShipping)
     }
 
-    fun flipPayedStatus(paymentId: String){
-        val shippingID = shippingRepo.findShippingEntitiesByPaymentId(paymentId.toLong())
+    fun flipPayedStatus(paymentId: String): ShippingEntity?{
+        val shippingID = shippingRepo.findShippingEntitiesByPaymentId(paymentId.toLong()!!)
         println("Queried shippingId: " + shippingID + ", on paymentId: " + paymentId)
+        val shippingEntity = getShippingOnId(shippingID)
+
+        if (shippingEntity?.payed == false){
+            updatePayedinShipping(shippingID, shippingEntity, true,true)
+            println("The order is payed and registered as shippingReady: " + shippingEntity.payed)
+            return shippingEntity
+        }else if (shippingEntity?.payed == true){
+            updatePayedinShipping(shippingID, shippingEntity, false, false)
+            println("Update the payment to make it shippingReady: " + shippingEntity.payed)
+            shippingEntity?.payed == false
+            return shippingEntity
+        }
+        return shippingEntity
     }
+    fun updatePayedinShipping(shippingId: Long, shippingEntity: ShippingEntity, payed: Boolean, shippingReady: Boolean): ShippingEntity?{
+        if (shippingRepo.existsById(shippingId)){
+            val newShipping = ShippingEntity(shippingId, shippingEntity.paymentId, payed, shippingReady)
+            return shippingRepo.save(newShipping)
+        }
+        return null
+    }
+
 
 
 

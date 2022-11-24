@@ -34,12 +34,6 @@ class OrderController(
         throw OrderNotFoundException("There was an error locating your order")
     }
 
-    //Creates a new Order, not creating a payment - WORKS
-    @PostMapping("/newOrder")
-    fun createOrder(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
-        return ResponseEntity.ok(orderService.createOrder(orderEntity))
-    }
-
     //Updates an existing order - WORKS
     @PutMapping("/{id}")
     fun updateOrder(@PathVariable id: Long?, @RequestBody orderEntity: OrderEntity?): ResponseEntity<OrderEntity?> {
@@ -67,23 +61,13 @@ class OrderController(
         }
     }
 
-    //Sends a message-param to itself - WORKS
-    @PostMapping("/{message}")
-    fun paymentMessage(@PathVariable message: String) {
-        orderSender.sendMessage(message)
-    }
-
+    //Fully integrated POST mapping, sends to payment and shippingservice
     @PostMapping("working/newOrder")
     fun createOrderAndSend(@RequestBody orderEntity: OrderEntity): ResponseEntity<OrderEntity>{
         val newOrder = ResponseEntity.ok(orderService.createOrder(orderEntity))
         orderSender.sendOrdIdToPayment(orderEntity.orderId.toString())
         return newOrder
     }
-
-/*    @PostMapping("/{id}")
-    fun createOrderIdmessage(@PathVariable id: Long) {
-        orderSender.sendOrder(id)
-    }*/
 
     //Sends a call to the Payment-service - WORKS
     @PostMapping("http/callToPayment")
