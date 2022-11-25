@@ -1,10 +1,16 @@
 # Final-exam   -  Kandidatnummer: 1039
+Note that my application lacks some tests, but I can reassure you that it excells if you use it as described below! :P \
+•• \
 What is my application based on?
 Well, you submit an order to the online store(Step 8), that creates a payment, that creates a shipping.
 When the payment is complete(Step 10), payment notifies shipping that payment is done. Which notifies payment of its shippability,
 which again notifies order(online store) that the order is payed for and ready to be shipped to you!
 ###### What have I done?
-• Gateway service who handles request over port 8080 and does the routing. It also uses the Discovery service (EUREKA) to discover them
+• All 3 preliminary services with multiple endpoints all returning wrapped responses using ResponseEntity. \
+• docker compose files that starts up databases.\
+• RabbitMQ with predefined queues, and all preliminary services communicates through its message queues. \
+• Gateway service who handles request over port 8080 and does the routing. It also uses the Discovery service (EUREKA) to discover them \
+• I have implemented caching in the OrderService to showcase my abilities to do so. \
 ## How To Use The Application
 ### Note the tables are empty on creation - Step 8. Will take care of that
 0. Start the rabbitMQ docker compose in root folder

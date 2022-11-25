@@ -3,21 +3,27 @@ package no.exam.orderservice.service
 import no.exam.orderservice.entity.OrderEntity
 import no.exam.orderservice.repository.OrderRepo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
+@CacheConfig(cacheNames = ["orders"])
 class OrderService(@Autowired private val orderRepo: OrderRepo) {
 
-    //Provide the id of an order and it should return
+    @Cacheable(key = "#orderId")
     fun getOrderOnId(orderId: Long): OrderEntity?{
         return orderRepo.findById(orderId).orElse(null)
     }
 
-    //Post, with the required fields of the entity to create a new one
+    @CacheEvict(allEntries = true)
     fun createOrder(orderEntity: OrderEntity): OrderEntity{
         return orderRepo.save(orderEntity)
     }
 
+    @CachePut(key = "#orderEntity.orderId")
     fun updateOrder(orderId: Long, orderEntity: OrderEntity): OrderEntity?{
         if(orderRepo.existsById(orderId)){
             orderRepo.deleteById(orderId)
@@ -32,6 +38,7 @@ class OrderService(@Autowired private val orderRepo: OrderRepo) {
         return orderRepo.save(doneOrder)
     }
 
+    @CacheEvict(key = "#orderId")
     fun deleteOrder(orderId: Long): Boolean{
         if(orderRepo.existsById(orderId)){
             orderRepo.deleteById(orderId)
